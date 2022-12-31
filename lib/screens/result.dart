@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:quizz_app/cubit/counter_cubit.dart';
 
 class Result extends StatelessWidget {
   final int score;
@@ -36,12 +38,16 @@ class Result extends StatelessWidget {
               width: 300,
               child: Align(
                 alignment: Alignment.center,
-                child: Text(
-                  'Your final Score is $score',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(color: Colors.white, fontSize: 24.0),
+                child: BlocBuilder<CounterCubit,CounterState>(
+                  builder: (context, state) {
+                    return Text(
+                      'Your final Score is ${state.score}',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(color: Colors.white, fontSize: 24.0),
+                    );
+                  }),
                 ),
-              )),
+              ),
         ],
       ),
     );

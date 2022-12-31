@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:quizz_app/cubit/counter_cubit.dart';
+import 'package:quizz_app/providers/quizz_provider.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
-import './question.dart';
-import './result.dart';
+import 'question.dart';
+import 'result.dart';
 
 class QuizzPage extends StatefulWidget {
   const QuizzPage({Key? key, required this.title}) : super(key: key);
@@ -30,18 +34,28 @@ class _QuizzPageState extends State<QuizzPage> {
   int score = 0;
 
   void _answerQuestion(Question question, bool answer) {
-    setState(() {
+    BlocProvider.of<CounterCubit>(context).incrementQuestionIndex();
+    if (question.isCorrect == answer) {
+      BlocProvider.of<CounterCubit>(context).incrementScore();
+    }
+
+    /*context.read<Counter>().incrementIndex();
+    if (question.isCorrect == answer) {
+      context.read<Counter>().incrementScore();
+    }*/
+    /*setState(() {
       questionNum += 1;
 
       if (question.isCorrect == answer) {
         score += 1;
       }
-    });
+    });*/
   }
 
   Widget questionView(questionId) {
     if (questionId == questions.length) {
-      return Result(score);
+      //return Result(score);
+      return Result(0);
     } else {
       Question question = questions.elementAt(questionId);
       return QuestionView(question, _answerQuestion);
@@ -57,7 +71,14 @@ class _QuizzPageState extends State<QuizzPage> {
         centerTitle: true,
         backgroundColor: Colors.redAccent,
       ),
-      body: Column(children: [questionView(questionNum)]),
+      body: Column(
+          children: [
+            BlocBuilder<CounterCubit, CounterState>(
+                builder: (context, state) {
+                  return questionView(state.questionIndex);
+                }
+            )
+          ]),
     );
   }
 }
