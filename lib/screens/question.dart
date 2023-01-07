@@ -81,4 +81,10 @@ class Question {
   bool isCorrect;
 
   Question({required this.questionText, required this.isCorrect});
+
+  Map<String, dynamic> toJson() =>
+      {'content': questionText, 'answer': isCorrect};
+
+  static Question fromJson(Map<String, dynamic> json) =>
+      Question(questionText: json['content'], isCorrect: json['answer']);
 }

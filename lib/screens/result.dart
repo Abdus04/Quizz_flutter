@@ -12,7 +12,7 @@ class Result extends StatelessWidget {
     // TODO: implement build
     return Container(
       alignment: Alignment.center,
-      margin: EdgeInsets.only(top: 50),
+      margin: EdgeInsets.only(top: 10),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
@@ -31,23 +31,33 @@ class Result extends StatelessWidget {
                 ),
               )),
           Container(
-              padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-              margin: EdgeInsets.all(50),
-              color: Colors.redAccent[100],
-              height: 230,
-              width: 300,
-              child: Align(
-                alignment: Alignment.center,
-                child: BlocBuilder<CounterCubit,CounterState>(
+            padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+            margin: EdgeInsets.all(50),
+            color: Colors.redAccent[100],
+            height: 230,
+            width: 300,
+            child: Align(
+              alignment: Alignment.center,
+              child: BlocBuilder<CounterCubit, CounterState>(
                   builder: (context, state) {
-                    return Text(
-                      'Your final Score is ${state.score}',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(color: Colors.white, fontSize: 24.0),
-                    );
-                  }),
-                ),
-              ),
+                return Text(
+                  'Your final Score is ${state.score}',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(color: Colors.white, fontSize: 24.0),
+                );
+              }),
+            ),
+          ),
+          TextButton(
+            onPressed: () {
+              BlocProvider.of<CounterCubit>(context).resetScore();
+              BlocProvider.of<CounterCubit>(context).resetQuestionIndex();
+              Navigator.pop(context);
+            },
+            child: Text("Back Home", style: TextStyle(color: Colors.white)),
+            style: TextButton.styleFrom(
+                backgroundColor: Colors.redAccent, fixedSize: Size(120, 32)),
+          )
         ],
       ),
     );

@@ -11,4 +11,11 @@ class CounterCubit extends Cubit<CounterState> {
 
   void incrementQuestionIndex() => emit(
       CounterState(score: state.score, questionIndex: state.questionIndex + 1));
+
+  void resetScore() => emit(
+      CounterState(score: 0, questionIndex: state.questionIndex));
+
+  void resetQuestionIndex() => emit(
+      CounterState(score: state.score, questionIndex: 0));
+
 }
